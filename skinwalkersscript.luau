@@ -173,10 +173,10 @@ end
 
 -- Create GUI
 local Window = Rayfield:CreateWindow({
-    Name = "X Hub - Skinwalkers [v2.0]",
+    Name = "fennecz_ on discord $$",
     Icon = 4483362458,
     LoadingTitle = "X Hub Loading",
-    LoadingSubtitle = "Improved by X Hub created by Rellware",
+    LoadingSubtitle = "Scripted by Fennec",
     Theme = "Default",
     
     DisableRayfieldPrompts = false,
