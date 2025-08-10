@@ -12,6 +12,8 @@ local PlayerGui = lPlayer:WaitForChild("PlayerGui")
 local WSpace = game:GetService("Workspace")
 local GameMap = WSpace:WaitForChild("Map")
 local TycoonsFolder = GameMap:WaitForChild("Tycoons")
+local RFiltered = WSpace.RayFiltered
+local FishesFolder = RFiltered.Objects
 
 -- Get local player's tycoon
 local function getLocalPlayerBase()
@@ -23,7 +25,6 @@ local function getLocalPlayerBase()
     return nil
 end
 
--- Teleport function from original script
 local function tpToBase()
     local LocalPlayerBase = getLocalPlayerBase()
     local lCharacter = lPlayer.Character
@@ -43,10 +44,21 @@ local function tpToBase()
         if collectZone and collectZone:FindFirstChild("CollectPart2") then
             local humanoidRootPart = lCharacter:FindFirstChild("HumanoidRootPart")
             if humanoidRootPart then
-                humanoidRootPart.CFrame = workspace.Map.Forcefield.CFrame * CFrame.new(0,1,0)
-                wait(3)
+                local startTime = tick()
+                local duration = 3 -- 3 seconds total
+                local interval = 0.5 -- 0.5 seconds between teleports
+                
+                while tick() - startTime < duration do
+                    -- Teleport above the forcefield
+                    humanoidRootPart.CFrame = workspace.Map.Forcefield.CFrame * CFrame.new(0, 1, 0)
+                    print("Teleported above forcefield")
+                    
+                    wait(interval)
+                end
+                
+                -- Final teleport to the collect part
                 humanoidRootPart.CFrame = collectZone.CollectPart2.CFrame * CFrame.new(0, 3, 0)
-                print("Teleported to base!")
+                print("TPed to base collect zone")
             end
         else
             warn("CollectZone or CollectPart2 not found!")
@@ -106,7 +118,7 @@ TitleLabel.Name = "TitleLabel"
 TitleLabel.Size = UDim2.new(1, -40, 1, 0)
 TitleLabel.Position = UDim2.new(0, 5, 0, 0)
 TitleLabel.BackgroundTransparency = 1
-TitleLabel.Text = "Teleport GUI"
+TitleLabel.Text = "Instant Steal"
 TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TitleLabel.TextScaled = true
 TitleLabel.Font = Enum.Font.Arcade
@@ -138,7 +150,7 @@ TeleportButton.Size = UDim2.new(0, 200, 0, 50)
 TeleportButton.Position = UDim2.new(0.5, -100, 0, 50)
 TeleportButton.BackgroundColor3 = Color3.fromRGB(85, 170, 85)
 TeleportButton.BorderSizePixel = 0
-TeleportButton.Text = "Teleport to Base"
+TeleportButton.Text = "TP To Base"
 TeleportButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 TeleportButton.TextScaled = true
 TeleportButton.Font = Enum.Font.Arcade
